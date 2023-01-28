@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Asymmetric encryption using RSA
+# Generate a private key
+openssl genpkey -algorithm RSA -out private_key.pem
+
+# Generate a public key from the private key
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+
+# Encrypt a message using the public key
+echo "This is my secret message." > message.txt
+openssl rsautl -encrypt -inkey public_key.pem -pubin -in message.txt -out message.enc
+
+# Decrypt the message using the private key
+openssl rsautl -decrypt -inkey private_key.pem -in message.enc -out message.dec
+
+# Hashing using SHA-256
+# Hash a message
+echo "This is my message to hash." > message.txt
+openssl dgst -sha256 message.txt
+
+# Hash a file
+openssl dgst -sha256 /path/to/file.txt
