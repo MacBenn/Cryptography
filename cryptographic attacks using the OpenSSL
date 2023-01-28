@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Symmetric encryption using AES-256
+# Generate a random key
+openssl rand -hex 32 > key.txt
+
+# Encrypt a message using the key
+echo "This is my secret message." > message.txt
+openssl enc -aes-256-cbc -in message.txt -out message.enc -k $(cat key.txt)
+
+# Decrypt the message using the key
+openssl enc -d -aes-256-cbc -in message.enc -out message.dec -k $(cat key.txt)
+
+# Hash-based message authentication code (HMAC) using SHA-256
+# Generate a random key
+openssl rand -hex 32 > key.txt
+
+# Generate the HMAC of a message using the key
+echo "This is my message to hash." > message.txt
+openssl dgst -sha256 -hmac $(cat key.txt) message.txt
+
+# Cryptographic attacks
+# Brute force attack on a password protected ZIP file
+# This command will try every possible combination of characters in the given range and length
+fcrackzip -b -c a -l 1-10 -u secret.zip
+
+# Dictionary attack on a password protected ZIP file
+# This command will try every word in the dictionary file against the password
+fcrackzip -b -D -p /usr/share/dict/words secret.zip
